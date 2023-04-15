@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from typing import Union
 import pandas as pd
 app = FastAPI()
-df1 = pd.read_csv('F:\FA_Data1.2-20230415T170142Z-001\Data1.2\df1.csv')
+df1 = pd.read_csv('Data1.2\df1.csv')
 
 @app.get("/")
 def read_root():
