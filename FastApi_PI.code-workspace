@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"name": "FastApi_PI",
+			"path": "."
+		},
+		{
+			"path": "../PI_1.2"
+		}
+	],
+	"settings": {}
+}
