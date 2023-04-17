@@ -1,10 +1,10 @@
 from fastapi import FastAPI
-from typing import Union
 import pandas as pd
-from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 app = FastAPI()
+from sklearn.neighbors import NearestNeighbors
+from sklearn.preprocessing import StandardScaler
+from typing import List
+
 df1 = pd.read_csv('F:\FA_Data1.2-20230415T170142Z-001\Data1.2\df1.csv')
 @app.get("/")
 def read_root():
@@ -112,24 +112,27 @@ def get_contents(rating: str):
     return {'rating': rating, 'contenido': respuesta} 
 
 
+# Seleccionar las columnas relevantes
+X = df1[['titulo_encoded', 'puntuacion', 'elenco_encoded']].values
+
+# Escalar los datos
+scl = StandardScaler()
+X = scl.fit_transform(X)
+
+# Entrenar el modelo de vecinos cercanos
+knn_model = NearestNeighbors(metric='cosine', algorithm='auto')
+knn_model.fit(X)
+
 @app.get('/get_recomendation/{title}')
 def get_recomendation(title:str):
-    vectorizer = CountVectorizer(stop_words="english")
+    # Obtener el índice de la película seleccionada
+    idx = df1[df1['titulo'] == title].index[0]
 
-    elenco_matrix = vectorizer.fit_transform(df1["elenco"].fillna(""))
+    # Obtener los vecinos cercanos a la película seleccionada
+    distances, indices = knn_model.kneighbors(X[idx].reshape(1, -1), n_neighbors=6)
 
-    similarity_matrix = cosine_similarity(elenco_matrix, elenco_matrix)
+    # Obtener los títulos de las películas recomendadas
+    recommended_movies = df1.iloc[indices[0][1:]]['titulo'].tolist()
 
-# Definir la función de recomendación de películas
-#def get_recommendation(titulo: str):
-    # Encontrar el índice de la película
-    idx = df1[df1["titulo"] == title].index[0]
-    
-    # Calcular la similitud de la película con todas las demás películas
-    sim_scores = list(enumerate(similarity_matrix[idx]))
-    
-    # Ordenar las películas según la similitud basada en el elenco de actores y devolver una lista de Python con los 5 valores más altos
-    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)[1:6]
-    movie_indices = [i[0] for i in sim_scores]
-    respuesta = list(df1.iloc[movie_indices]["titulo"]) 
+    respuesta = recommended_movies 
     return {'recomendacion':respuesta}
