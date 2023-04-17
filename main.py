@@ -4,6 +4,10 @@ app = FastAPI()
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import StandardScaler
 from typing import List
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsRegressor
 
 df1 = pd.read_csv('F:\FA_Data1.2-20230415T170142Z-001\Data1.2\df1.csv')
 @app.get("/")
@@ -111,25 +115,23 @@ def get_contents(rating: str):
     
     return {'rating': rating, 'contenido': respuesta} 
 
-from sklearn.preprocessing import LabelEncoder
+
 
 le = LabelEncoder()
 df1['elenco_encoded'] = le.fit_transform(df1['elenco']) 
 df1['titulo_encoded'] = le.fit_transform(df1['titulo'])
-from sklearn.preprocessing import LabelEncoder
 
-from sklearn.preprocessing import StandardScaler
 scl = StandardScaler()
 X = df1[['titulo_encoded', 'puntuacion','elenco_encoded']]
 y = df1[ 'puntuacion']
 X = scl.fit_transform(X)
 features_mean = ['titulo_encoded', 'elenco_encoded', 'puntuacion']
 df_train = df1[features_mean]
-from sklearn.model_selection import train_test_split
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 X = df_train[['titulo_encoded', 'puntuacion','elenco_encoded']]
 y = df_train[ 'puntuacion']
-from sklearn.neighbors import KNeighborsRegressor
+
 k = 5
 knn = KNeighborsRegressor(n_neighbors=k)
 knn.fit(X_train, y_train)
