@@ -111,8 +111,28 @@ def get_contents(rating: str):
     
     return {'rating': rating, 'contenido': respuesta} 
 
+from sklearn.preprocessing import LabelEncoder
 
-# Seleccionar las columnas relevantes
+le = LabelEncoder()
+df1['elenco_encoded'] = le.fit_transform(df1['elenco']) 
+df1['titulo_encoded'] = le.fit_transform(df1['titulo'])
+from sklearn.preprocessing import LabelEncoder
+
+from sklearn.preprocessing import StandardScaler
+scl = StandardScaler()
+X = df1[['titulo_encoded', 'puntuacion','elenco_encoded']]
+y = df1[ 'puntuacion']
+X = scl.fit_transform(X)
+features_mean = ['titulo_encoded', 'elenco_encoded', 'puntuacion']
+df_train = df1[features_mean]
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X = df_train[['titulo_encoded', 'puntuacion','elenco_encoded']]
+y = df_train[ 'puntuacion']
+from sklearn.neighbors import KNeighborsRegressor
+k = 5
+knn = KNeighborsRegressor(n_neighbors=k)
+knn.fit(X_train, y_train)
 X = df1[['titulo_encoded', 'puntuacion', 'elenco_encoded']].values
 
 # Escalar los datos
@@ -122,6 +142,8 @@ X = scl.fit_transform(X)
 # Entrenar el modelo de vecinos cercanos
 knn_model = NearestNeighbors(metric='cosine', algorithm='auto')
 knn_model.fit(X)
+
+
 
 @app.get('/get_recomendation/{title}')
 def get_recomendation(title:str):
