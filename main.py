@@ -13,10 +13,10 @@ def read_root():
 
 #1
 @app.get('/get_max_duration/{año}/{plataforma}/duration_type')
-def get_max_duration(release_year: int, platform: str, duration_type: str):
+def get_max_duration(release_year: int, plataforma: str, duration_type: str):
    # Filtramos las películas del año, plataforma y tipo de duración específicos
     filtered_df = df1[(df1['tipo'] == 'movie') & (df1['año_realiacion'] == release_year) & 
-                            (df1['plataforma'] == platform) & (df1['duration_type'] == duration_type)]
+                            (df1['plataforma'] == plataforma) & (df1['duration_type'] == duration_type)]
     
     # Ordenamos por duración de mayor a menor y seleccionamos el primer título (el de mayor duración)
     max_duration_movie = filtered_df.sort_values(by='duration_int', ascending=False).iloc[0]['titulo']
@@ -57,29 +57,29 @@ def get_count_platform(plataforma: str):
 #4
 @app.get('/get_actor/{plataforma}/{anio}')
 def get_actor(plataforma: str, anio: int):
-
-    df1 = pd.read_csv('Data1.2\df1 (1).csv')
-
-# Convertir la columna "elenco" en filas separadas
-    df1 = df1.assign(elenco=df1['elenco'].str.split(','))
-
-# Convertir la columna "elenco" en filas separadas
-    df1 = df1.explode('elenco')
-
-# Contar cuántas veces aparece cada actor en la columna "elenco"
-    actor_counts = df1['elenco'].value_counts()
-
-# Encontrar el actor que aparece con mayor frecuencia
-    respuesta = actor_counts.idxmax()
-
-# Encontrar la fila correspondiente en el DataFrame original
-    respuesta1 = df1.loc[df1['elenco'] == actor_counts.idxmax()]
-
+    platforms = ["amazon", "disney", "hulu", "netflix"]
+    if plataforma not in platforms:
+        return ("Plataforma incorrecta! Debe ingresar una de las siguientes: amazon, disney, hulu, netflix")
+    # Verificar que el año esté dentro del rango válido
+    if anio is not None and anio < 1916:
+        raise ValueError("El año debe de ser mayor a 1920")
+    # Filtrar las películas para la plataforma y año especificado
+    df_filtered = df1[(df1.plataforma == plataforma) & (df1.año_realiacion == anio)]
+         # Poner el cast en un array para poder hacer el recorrido
+    df_cast_filtered= df_filtered.assign(actor=df_filtered.elenco.str.split(',')).explode('elenco')
+    # Contar la cantidad de apariciones de cada actor
+    actor_count = df_cast_filtered.elenco.value_counts()
+    # Obtener el actor que más se repite y su cantidad de apariciones
+    max_actor = actor_count.index[0]
+    max_count = int(actor_count.iloc[0])
+    actor = dict({'actor': max_actor, 'count': max_count})
+    respuesta = max_actor
+    respuesta1 = max_count
     return {
         'plataforma': plataforma,
         'anio': anio,
         'actor': respuesta,
-        #'apariciones': respuesta1
+        'apariciones': respuesta1
     }
 
 
@@ -92,9 +92,9 @@ def prod_per_county(tipo: str, pais: str, anio: int):
     num_prods = len(df_filt)
     
     # Crear un diccionario con el resultado
-    respuesta = {'pais': pais, 'anio': anio, 'pelicula': num_prods} 
+    respuesta = {'pais': pais, 'anio': anio, 'contenido': num_prods} 
     
-    return {'pais': pais, 'anio': anio, 'peliculas': respuesta}
+    return {'pais': pais, 'anio': anio, 'contenido': respuesta}
 
 #6
 @app.get('/get_contents/{rating}')
