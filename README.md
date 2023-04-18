@@ -1,6 +1,7 @@
 # FastApi_PI1
-render  https://fastapi-pi1.onrender.com 
+
 Proyecto Individual1 Henry
+
 Este es Primer Trabajo Final de la carrera Data Science de la Academia Henry.
 
 #  Objetivos:
@@ -23,6 +24,7 @@ Adema realizo cambios que creo convenientes para que la data quede limpia y creo
  
  Una vez que los datos estan listos para ser consultados utilizo visual studio code, alli hice la api de la siguiente manera:
 
+
 Desde la consola de Visual:
 git init
 pip install uvicorn
@@ -30,12 +32,13 @@ pip install fastapi
 pip install pandas
 
  Una vez que ya están todas las librerías descargadas en nuestro entorno virtual, podemos hacer el freeze de los requirements.
+ 
 Es importante no abusar de demasiadas dependencias, porque en algunos casos, luego las aplicaciones no pueden deployar nuestros modelos.
 pip freeze > requirements.txt
 Si luego necesito instalar otra librería más, se vuelve a ejecutar este comando.
 Cualquier persona que quiera usar nuestro código, va a poder instalar lo mismo que instalamos nosotros.
 
-Las Consultas a realiar a la api son:
+Las Consultas a realizar a la api son:
 (primero cree las funciones en colab para probarlas y luego pasarlas a Fastapi)
 
 
@@ -52,5 +55,18 @@ Las Consultas a realiar a la api son:
 6)La cantidad total de contenidos/productos (todo lo disponible en streaming, series, peliculas, etc) según el rating de audiencia dado (para que publico fue clasificada la pelicula). La función debe llamarse get_contents(rating) y debe devolver el numero total de contenido con ese rating de audiencias.
 
 
-Por útlimo realizo el ETL y modelo de recomedación de peliculas, mi criterio para elegir fueron las en base a los alctores que trabajan en cada peli ya es por lo que muchas veces me guio.
+Por útlimo realizo el ETL y modelo de recomedación de peliculas, mi criterio para elegir fue implementar Modelo de vecinos Cercanos.
 
+1-Realice analisis con librerias recomendas.
+
+2-Normalización de datos.
+
+3-Entrenamiento.
+
+4-Realiación Modelo.
+
+5-Calculo de efectividad.
+
+6- realizción de Modelo para ser consumido por Api.
+
+render  https://fastapi-pi1.onrender.com 
