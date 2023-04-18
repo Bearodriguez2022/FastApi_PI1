@@ -1,11 +1,10 @@
 {
 	"folders": [
 		{
-			"name": "FastApi_PI",
 			"path": "."
 		},
 		{
-			"path": "../PI_1.2"
+			"path": "../FA_Data1.2-20230415T170142Z-001"
 		}
 	],
 	"settings": {}
