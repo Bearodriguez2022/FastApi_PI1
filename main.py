@@ -9,7 +9,12 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsRegressor
 
+
 df1 = pd.read_csv('https://github.com/Bearodriguez2022/FastApi_PI1/blob/master/Data1.2/df1.csv')
+# Convertir el DataFrame a una cadena JSON y guardarla en un archivo
+df1.to_json('archivo.json', orient='records')
+
+
 @app.get("/")
 def read_root():
     return {"Hola henries, este es mi PI1"}
