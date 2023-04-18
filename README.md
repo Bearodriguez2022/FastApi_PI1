@@ -71,4 +71,5 @@ Por útlimo realizo el ETL y modelo de recomedación de peliculas, mi criterio p
 
 
 video explictivo https://reccloud.com/es/u/urs30wm
+
 render  https://fastapi-pi1.onrender.com 
