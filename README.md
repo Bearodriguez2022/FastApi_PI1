@@ -69,4 +69,6 @@ Por útlimo realizo el ETL y modelo de recomedación de peliculas, mi criterio p
 
 6- realizción de Modelo para ser consumido por Api.
 
+
+video explictivo https://reccloud.com/es/u/urs30wm
 render  https://fastapi-pi1.onrender.com 
