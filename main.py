@@ -12,7 +12,10 @@ from sklearn.neighbors import KNeighborsRegressor
 
 df1 = pd.read_csv('https://github.com/Bearodriguez2022/FastApi_PI1/blob/master/Data1.2/df1.csv')
 # Convertir el DataFrame a una cadena JSON y guardarla en un archivo
-df1.to_json('archivo.json', orient='records')
+#df1.to_json('archivo.json', orient='records')
+# Leer los datos del archivo JSON y convertirlos en un DataFrame
+df1 = pd.read_json('F:\FA_Data1.2-20230415T170142Z-001\Data1.2\df1_tem.json', orient='records')
+
 
 
 @app.get("/")
