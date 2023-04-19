@@ -16,7 +16,7 @@ df1 = pd.read_csv('https://github.com/Bearodriguez2022/FastApi_PI1/blob/master/D
 # Leer los datos del archivo JSON y convertirlos en un DataFrame
 df1 = pd.read_json('F:\FA_Data1.2-20230415T170142Z-001\Data1.2\df1_tem.json', orient='records')
 
-
+a
 
 @app.get("/")
 def read_root():
