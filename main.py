@@ -8,11 +8,13 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsRegressor
+import json
+import datetime
 
 
-df1 = pd.read_json('https://github.com/Bearodriguez2022/FastApi_PI1/blob/master/Data1.2/df1_tem.json')
 
-a
+#df1 = pd.read_json('https://github.com/Bearodriguez2022/FastApi_PI1/blob/master/Data1.2/df1_tem.json',orient='records')
+df1 = pd.read_json('F:\FastApi_PI\Data1.2\df1_tem.json',orient='records')
 
 @app.get("/")
 def read_root():
